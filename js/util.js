@@ -5,7 +5,7 @@
  * @returns {boolean|number}
  */
 
-const getRandomInt = (min, max) => {
+const getRandomInt = function (min, max) {
   if (min >= 0 && min < max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
@@ -18,7 +18,7 @@ const getRandomInt = (min, max) => {
  * @param maxLength
  * @returns {boolean}
  */
-const checkStringLength = (verifiedString, maxLength) => {
+const checkStringLength = function (verifiedString, maxLength) {
   const stringlength = verifiedString.length;
   return stringlength <= maxLength;
 
