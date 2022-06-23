@@ -12,7 +12,7 @@ const buildThumbnails = function (photosDescriptions) {
   const photosFragment = document.createDocumentFragment();
 
   photosDescriptions.forEach(({url, likes, comments}) => {
-    const photo = buildThumbnail({url, likes, comments})
+    const photo = buildThumbnail({url, likes, comments});
     photosFragment.appendChild(photo);
   });
   return photosFragment;
