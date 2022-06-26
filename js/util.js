@@ -30,8 +30,6 @@ checkStringLength('test', 4);
  * @param evt
  * @returns {boolean}
  */
-const isEscapeKey = (evt) => {
-  return evt.key === 'Escape';
-}
+const isEscapeKey = (evt) => evt.key === 'Escape';
 
 export {getRandomInt, isEscapeKey};

@@ -1,4 +1,4 @@
-import {isEscapeKey} from "./util.js";
+import {isEscapeKey} from './util.js';
 
 const closeButtonFullPicture = document.querySelector('#picture-cancel');
 const fullPicture = document.querySelector('.big-picture');
