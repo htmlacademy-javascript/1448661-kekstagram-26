@@ -28,7 +28,21 @@ const buildSocialComments = function (photosDescriptions, i) {
   return commentList;
 };
 
-const buildFullPhoto = function (thumbnails, photosDescriptions) {
+const closeFullPicture = function () {
+  fullPicture.classList.add('hidden');
+  body.classList.remove('modal-open');
+
+  document.removeEventListener('keydown', onFullPhotoEscKeydown);
+};
+
+const onFullPhotoEscKeydown = (evt) => {
+  if (isEscapeKey(evt)) {
+    evt.preventDefault();
+    closeFullPicture();
+  }
+};
+
+const createFullPicture = function (thumbnails, photosDescriptions) {
   for (let i = 0; i < thumbnails.length; i++) {
     thumbnails[i].addEventListener('click', (evt) => {
       evt.preventDefault();
@@ -49,22 +63,14 @@ const buildFullPhoto = function (thumbnails, photosDescriptions) {
       const commentsLoader = fullPicture.querySelector('.comments-loader');
       commentsLoader.classList.add('hidden');
       body.classList.add('modal-open');
+
+      document.addEventListener('keydown', onFullPhotoEscKeydown);
     });
   }
 };
 
 closeButtonFullPicture.addEventListener('click', () => {
-  fullPicture.classList.add('hidden');
-  body.classList.remove('modal-open');
+  closeFullPicture();
 });
 
-document.addEventListener('keydown', (evt) => {
-  if (isEscapeKey(evt)) {
-    evt.preventDefault();
-    fullPicture.classList.add('hidden');
-    body.classList.remove('modal-open');
-  }
-});
-
-
-export {buildFullPhoto};
+export {createFullPicture};
