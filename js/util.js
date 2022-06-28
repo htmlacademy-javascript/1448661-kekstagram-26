@@ -25,4 +25,11 @@ const checkStringLength = function (verifiedString, maxLength) {
 };
 checkStringLength('test', 4);
 
-export {getRandomInt};
+/**
+ * Функция делает проверку на клавишу Escape
+ * @param evt
+ * @returns {boolean}
+ */
+const isEscapeKey = (evt) => evt.key === 'Escape';
+
+export {getRandomInt, isEscapeKey};
