@@ -8,8 +8,9 @@ const buttonUploadCancel = uploadingNewImageForm.querySelector('#upload-cancel')
 const commentField = uploadingNewImageForm.querySelector('.text__description');
 const hashtagField = uploadingNewImageForm.querySelector('.text__hashtags');
 const MAX_COMMENT_LENGTH = 140;
-//const HASHTAGS_LIMIT = 5;
-const regularExpression = /^#[A-Za-zА-Яа-яЁё0-9]{1,19}$/;
+const HASHTAGS_LIMIT = 5;
+const regularExpression = /^#[A-Za-zА-яЁё0-9]{1,19}$/;
+
 
 function closeValidateForm() {
   imageEditingForm.classList.add('hidden');
@@ -69,21 +70,32 @@ pristine.addValidator(
   'Длина комментария не больше 140 символов!');
 
 function validateHashTags(value) {
-  value = value.replace(/\s+/g, ' ').trim();
+  if (value.length === 0) {
+    return true;
+  }
   let hashTags = value.split(' ');
   hashTags = hashTags.map((element) => element.toLowerCase());
-  console.log(hashTags);
-  /* for (let i = 0; i < hashTags.length; i++) {
-     if (regularExpression.test(hashTags[i])) {
-       return false;
-     }
-   }*/
+
+
+  const unique = hashTags.filter((element, index, self) => self.indexOf(element) === index);
+
+  if (hashTags.length > unique.length) {
+
+    return false;
+  }
+  for (let i = 0; i < hashTags.length; i++) {
+    if (!regularExpression.test(hashTags[i])) {
+      return false;
+    }
+  }
+  return hashTags.length <= HASHTAGS_LIMIT;
 }
 
 pristine.addValidator(
   hashtagField,
   validateHashTags,
-  'не верный HashTag ');
+  'Не верный HashTag'
+);
 
 uploadingNewImageForm.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();

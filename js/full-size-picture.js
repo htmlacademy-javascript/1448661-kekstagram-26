@@ -76,10 +76,6 @@ function buildSocialComments(photosDescriptions, i) {
       if (renderedCommentsCount >= allCommentsCount) {
         commentsLoaderButton.classList.add('hidden');
       }
-      console.log('commentsCount:', commentsCount);
-      console.log('renderedCommentsCount', renderedCommentsCount);
-      console.log('commentsToRender', commentsToRender);
-
     });
 
     return commentList;
