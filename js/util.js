@@ -5,12 +5,12 @@
  * @returns {boolean|number}
  */
 
-const getRandomInt = function (min, max) {
+function getRandomInt(min, max) {
   if (min >= 0 && min < max) {
     return Math.floor(Math.random() * (max - min + 1)) + min;
   }
   return false;
-};
+}
 
 /**
  * Функция для проверки максимальной длины строки.
@@ -18,18 +18,18 @@ const getRandomInt = function (min, max) {
  * @param maxLength
  * @returns {boolean}
  */
-const checkStringLength = function (verifiedString, maxLength) {
+function checkStringLength(verifiedString, maxLength) {
   const stringlength = verifiedString.length;
   return stringlength <= maxLength;
-
-};
-checkStringLength('test', 4);
+}
 
 /**
  * Функция делает проверку на клавишу Escape
  * @param evt
  * @returns {boolean}
  */
-const isEscapeKey = (evt) => evt.key === 'Escape';
+function isEscapeKey(evt) {
+  return evt.key === 'Escape';
+}
 
-export {getRandomInt, isEscapeKey};
+export {getRandomInt, isEscapeKey, checkStringLength };
