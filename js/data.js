@@ -50,7 +50,7 @@ function createTextMessage(messagesList) {
 function createComments() {
   const commentsList = [];
 
-  const randomCommentsCount = getRandomInt(0, 50);
+  const randomCommentsCount = getRandomInt(0, 20);
 
   for (let i = 1; i < randomCommentsCount; i++) {
 

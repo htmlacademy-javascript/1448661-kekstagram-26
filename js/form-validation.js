@@ -76,11 +76,9 @@ function validateHashTags(value) {
   let hashTags = value.split(' ');
   hashTags = hashTags.map((element) => element.toLowerCase());
 
-
   const unique = hashTags.filter((element, index, self) => self.indexOf(element) === index);
 
   if (hashTags.length > unique.length) {
-
     return false;
   }
   for (let i = 0; i < hashTags.length; i++) {
@@ -94,12 +92,11 @@ function validateHashTags(value) {
 pristine.addValidator(
   hashtagField,
   validateHashTags,
-  'Не верный HashTag'
+  'неверный хештег'
 );
 
 uploadingNewImageForm.addEventListener('submit', (evt) => {
   const isValid = pristine.validate();
-  evt.preventDefault();
   if (!isValid) {
     evt.preventDefault();
   }
