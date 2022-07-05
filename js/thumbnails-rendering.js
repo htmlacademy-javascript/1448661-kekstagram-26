@@ -1,4 +1,4 @@
-const buildThumbnail = function ({url, likes, comments}) {
+function buildThumbnail({url, likes, comments}) {
   const pictureTemplate = document.querySelector('#picture').content;
   const photo = pictureTemplate.cloneNode(true);
 
@@ -6,9 +6,9 @@ const buildThumbnail = function ({url, likes, comments}) {
   photo.querySelector('.picture__likes').textContent = likes;
   photo.querySelector('.picture__comments').textContent = comments.length;
   return photo;
-};
+}
 
-const buildThumbnails = function (photosDescriptions) {
+function buildThumbnails(photosDescriptions) {
   const photosFragment = document.createDocumentFragment();
 
   photosDescriptions.forEach(({url, likes, comments}) => {
@@ -16,7 +16,7 @@ const buildThumbnails = function (photosDescriptions) {
     photosFragment.appendChild(photo);
   });
   return photosFragment;
-};
+}
 
 export {buildThumbnails};
 

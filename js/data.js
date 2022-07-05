@@ -21,17 +21,17 @@ const ALL_MESSAGES = [
  * @param authorsList массив с именами авторов
  * @returns {*}
  */
-const randomAuthorName = function (authorsList) {
+function randomAuthorName(authorsList) {
   const randomAuthorNameIndex = getRandomInt(0, authorsList.length - 1);
   return authorsList[randomAuthorNameIndex];
-};
+}
 
 /**
  * Функция формирует текст комментария из двух случайных предложений.
  * @param messagesList массив с комментариями
- * @returns {`${*} ${*}`}
+ * @returns {string}
  */
-const createTextMessage = function (messagesList) {
+function createTextMessage(messagesList) {
   const randomIndexFirst = getRandomInt(0, messagesList.length - 1);
 
   let randomIndexSecond = getRandomInt(0, messagesList.length - 1);
@@ -41,16 +41,16 @@ const createTextMessage = function (messagesList) {
   }
 
   return `${messagesList[randomIndexFirst]} ${messagesList[randomIndexSecond]}`;
-};
+}
 
 /**
  * Функция создает массив объектов — список комментариев
  * @returns {*[]}
  */
-const createComments = function () {
+function createComments() {
   const commentsList = [];
 
-  const randomCommentsCount = getRandomInt(0, 10);
+  const randomCommentsCount = getRandomInt(0, 20);
 
   for (let i = 1; i < randomCommentsCount; i++) {
 
@@ -63,37 +63,37 @@ const createComments = function () {
     commentsList.push(comment);
   }
   return commentsList;
-};
+}
 
 /**
  * Функция создает url фотографии
  * @param number
- * @returns {`photos/${string}.jpg`} url фотографии
+ * @returns {string} url фотографии
  */
-const createPhotoAddress = function (number) {
+function createPhotoAddress(number) {
   return `photos/${number}.jpg`;
-};
+}
 
 /**
  * Функция создает объект описание фотографии
  * @param descriptionId
  * @returns {{comments: *, description: string, id, url: string, likes: (boolean|number)}}
  */
-const createPhotoDescription = function (descriptionId) {
-  return  {
+function createPhotoDescription(descriptionId) {
+  return {
     id: descriptionId,
     url: createPhotoAddress(descriptionId),
     description: 'Фотография – это жанровая зарисовка, передающая один из ярких моментов жизни.',
     likes: getRandomInt(15, 200),
     comments: createComments()
   };
-};
+}
 
 /**
  * Фукция создает массив из 25 сгенерированных объектов с описанием фотографий
  * @returns {*[]} Массив
  */
-const createPhotosDescriptions = function (descriptionsCount) {
+function createPhotosDescriptions(descriptionsCount) {
   const allPhotosDescriptions = [];
 
   for (let i = 1; i <= descriptionsCount; i++) {
@@ -102,8 +102,6 @@ const createPhotosDescriptions = function (descriptionsCount) {
     );
   }
   return allPhotosDescriptions;
-};
+}
 
 export {createPhotosDescriptions};
-
-
