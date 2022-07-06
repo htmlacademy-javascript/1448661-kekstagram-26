@@ -10,3 +10,5 @@ photosContainer.appendChild(photosFragment);
 const thumbnails = photosContainer.querySelectorAll('.picture');
 createFullPicture(thumbnails, photosDescriptions);
 validateForm();
+// temp
+
