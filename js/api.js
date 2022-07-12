@@ -15,7 +15,7 @@ function getData(onSuccess) {
       onSuccess(photos);
     })
     .catch(() => {
-      showAlert('Отсутствует соединение с сервером, попробуйте позже...');
+      showAlert('Нет соединение с сервером, попробуйте позже!');
     });
 }
 

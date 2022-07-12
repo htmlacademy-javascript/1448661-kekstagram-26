@@ -14,11 +14,6 @@ const minScale = 25;
 const scaleStep = 25;
 const radix = 10;
 
-const clearEffects = () => {
-  picturePreview.className = '';
-  picturePreview.style.filter = '';
-};
-
 const effectUnit  = {
   none: '',
   chrome: '',
