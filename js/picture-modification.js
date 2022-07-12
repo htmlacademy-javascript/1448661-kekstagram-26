@@ -4,7 +4,7 @@ const uploadValue = document.querySelector('.scale__control--value');
 const picturePreview = document.querySelector('.img-upload__preview img');
 const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevel = document.querySelector('.effect-level__value');
-
+const sliderContainer = document.querySelector('.img-upload__effect-level');
 
 const defaultEffect = 'none';
 let currentEffect = defaultEffect;
@@ -13,6 +13,11 @@ const maxScale = 100;
 const minScale = 25;
 const scaleStep = 25;
 const radix = 10;
+
+const clearEffects = () => {
+  picturePreview.className = '';
+  picturePreview.style.filter = '';
+};
 
 const effectUnit  = {
   none: '',
@@ -129,16 +134,16 @@ function createSlider() {
 
   const imgUploadForm = document.querySelector('.img-upload__form');
   imgUploadForm.addEventListener('change', (evt) => {
-    sliderElement.classList.add('hidden');
+    sliderContainer.classList.add('hidden');
 
     if (!evt.target.classList.contains('effects__radio')) {
       return;
     }
     currentEffect = evt.target.value;
     if (currentEffect === defaultEffect) {
-      sliderElement.classList.add('hidden');
+      sliderContainer.classList.add('hidden');
     } else {
-      sliderElement.classList.remove('hidden');
+      sliderContainer.classList.remove('hidden');
       picturePreview.className = '';
       const currentClass = `effects__preview--${currentEffect}`;
       picturePreview.classList.add(currentClass);

@@ -43,7 +43,7 @@ function createComment(comment) {
   return socialComment;
 }
 
-function createComments(photosDescriptions, i) {
+function createComments(photos, i) {
   const defaultCommentsCount = 5;
   let renderedCommentsCount = 0;
   let commentsToRender = defaultCommentsCount;
@@ -53,17 +53,17 @@ function createComments(photosDescriptions, i) {
 
   const commentsLoaderButton = document.querySelector('.comments-loader');
 
-  const allCommentsCount = photosDescriptions[i].comments.length;
+  const allCommentsCount = photos[i].comments.length;
 
   renderLoadMoreCommentsButton(allCommentsCount, defaultCommentsCount);
 
   if (allCommentsCount <= defaultCommentsCount) {
-    photosDescriptions[i].comments.forEach((comment) => {
+    photos[i].comments.forEach((comment) => {
       addCommentsToContainer(comment, commentList);
     });
     renderCommentsCounter(allCommentsCount, allCommentsCount);
   } else {
-    photosDescriptions[i].comments.slice(0, commentsToRender).forEach((comment) => {
+    photos[i].comments.slice(0, commentsToRender).forEach((comment) => {
       addCommentsToContainer(comment, commentList);
     });
 
@@ -73,7 +73,7 @@ function createComments(photosDescriptions, i) {
 
     commentsLoaderButton.addEventListener('click', () => {
 
-      photosDescriptions[i].comments.slice(renderedCommentsCount, commentsToRender).forEach((comment) => {
+      photos[i].comments.slice(renderedCommentsCount, commentsToRender).forEach((comment) => {
         addCommentsToContainer(comment, commentList);
       });
 

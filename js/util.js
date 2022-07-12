@@ -11,7 +11,7 @@ function getRandomInt(min, max) {
   }
   return false;
 }
-
+getRandomInt(1, 2);
 /**
  * Функция для проверки максимальной длины строки.
  * @param verifiedString
@@ -32,4 +32,19 @@ function isEscapeKey(evt) {
   return evt.key === 'Escape';
 }
 
-export {getRandomInt, isEscapeKey, checkStringLength };
+/**
+ * Функция показывает текст ошибки.
+ * @type {number}
+ */
+const alertShowTime = 5000;
+const showAlert = (message) => {
+  const alertContainer = document.querySelector('#alert-container')
+    .content.querySelector('.alert-container').cloneNode(true);
+  alertContainer.textContent = message;
+  document.body.appendChild(alertContainer);
+  setTimeout(() => {
+    alertContainer.remove();
+  }, alertShowTime);
+};
+
+export {isEscapeKey, checkStringLength, showAlert};

@@ -8,10 +8,10 @@ function buildThumbnail({url, likes, comments}) {
   return photo;
 }
 
-function buildThumbnails(photosDescriptions) {
+function buildThumbnails(photos) {
   const photosFragment = document.createDocumentFragment();
 
-  photosDescriptions.forEach(({url, likes, comments}) => {
+  photos.forEach(({url, likes, comments}) => {
     const photo = buildThumbnail({url, likes, comments});
     photosFragment.appendChild(photo);
   });
