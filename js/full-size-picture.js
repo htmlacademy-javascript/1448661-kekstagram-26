@@ -24,21 +24,20 @@ fullPictureCloseButton.addEventListener('click', () => {
 });
 
 
-function createFullPicture(thumbnails, photosDescriptions) {
+function createFullPicture(thumbnails, photos) {
   for (let i = 0; i < thumbnails.length; i++) {
     thumbnails[i].addEventListener('click', (evt) => {
       evt.preventDefault();
 
       body.classList.add('modal-open');
       fullPicture.classList.remove('hidden');
-
-      fullPicture.querySelector('.big-picture__img img').src = photosDescriptions[i].url;
-      fullPicture.querySelector('.likes-count').textContent = photosDescriptions[i].likes;
-      fullPicture.querySelector('.social__caption').textContent = photosDescriptions[i].description;
+      fullPicture.querySelector('.big-picture__img img').src = photos[i].url;
+      fullPicture.querySelector('.likes-count').textContent = photos[i].likes;
+      fullPicture.querySelector('.social__caption').textContent = photos[i].description;
 
       document.addEventListener('keydown', onFullPhotoEscKeydown);
 
-      createComments(photosDescriptions, i);
+      createComments(photos, i);
     });
   }
 }

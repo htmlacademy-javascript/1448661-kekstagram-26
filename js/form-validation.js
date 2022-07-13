@@ -1,28 +1,114 @@
 import {checkStringLength, isEscapeKey} from './util.js';
+import {sendData} from './api.js';
 
 const uploadFile = document.querySelector('#upload-file');
 const uploadingNewImageForm = document.querySelector('#upload-select-image');
 const imageEditingForm = uploadingNewImageForm.querySelector('.img-upload__overlay');
 const body = document.body;
-const buttonUploadCancel = uploadingNewImageForm.querySelector('#upload-cancel');
+const uploadCancelButton = uploadingNewImageForm.querySelector('#upload-cancel');
 const commentField = uploadingNewImageForm.querySelector('.text__description');
 const hashtagField = uploadingNewImageForm.querySelector('.text__hashtags');
-const MAX_COMMENT_LENGTH = 140;
-const HASHTAGS_LIMIT = 5;
+const submitButton = uploadingNewImageForm.querySelector('.img-upload__submit');
+const picturePreview = document.querySelector('.img-upload__preview img');
+const uploadValue = document.querySelector('.scale__control--value');
+
+const messageSuccess = document.querySelector('#success');
+const contentMessageSuccess = messageSuccess.content.querySelector('.success').cloneNode(true);
+const successButton = contentMessageSuccess.querySelector('.success__button');
+
+const messageError = document.querySelector('#error');
+const contentMessageError = messageError.content.querySelector('.error').cloneNode(true);
+const errorButton = contentMessageError.querySelector('.error__button');
+
+const maxScale = 100;
+const maxCommentLength = 140;
+const hashtagsLimit = 5;
 const regularExpression = /^#[A-Za-zА-яЁё0-9]{1,19}$/;
 
+function onMessageErrorClickOutside(evt) {
+  if (evt.target === contentMessageError) {
+    closeErrorMessage();
+  }
+}
 
-function closeValidateForm() {
+function onMessageErrorKeyDown(evt) {
+  if (isEscapeKey(evt)) {
+    closeErrorMessage();
+  }
+}
+
+function onMessageErrorClickButton() {
+  closeErrorMessage();
+}
+
+
+function onMessageSuccessClickOutside(evt) {
+  if (evt.target === contentMessageSuccess) {
+    closeSuccessMessage();
+  }
+}
+
+function onMessageSuccessEscKeydown(evt) {
+  if (isEscapeKey(evt)) {
+    closeSuccessMessage();
+  }
+}
+
+function onMessageSuccessClickButton() {
+  closeSuccessMessage();
+}
+
+function closeErrorMessage() {
+  errorButton.removeEventListener('click', onMessageErrorClickButton);
+  document.removeEventListener('keydown', onMessageErrorKeyDown);
+  contentMessageError.removeEventListener('click', onMessageErrorClickOutside);
+  contentMessageError.remove();
+}
+
+function closeSuccessMessage() {
+  successButton.removeEventListener('click', onMessageSuccessClickButton);
+  document.removeEventListener('keydown', onMessageSuccessEscKeydown);
+  contentMessageSuccess.removeEventListener('click', onMessageSuccessClickOutside);
+  contentMessageSuccess.remove();
+}
+
+function showSuccessMessage() {
+  successButton.addEventListener('click', onMessageSuccessClickButton);
+  document.addEventListener('keydown', onMessageSuccessEscKeydown);
+  contentMessageSuccess.addEventListener('click', onMessageSuccessClickOutside);
+  document.body.appendChild(contentMessageSuccess);
+}
+
+function showErrorMessage() {
+  errorButton.addEventListener('click', onMessageErrorClickButton);
+  document.addEventListener('keydown', onMessageErrorKeyDown);
+  contentMessageError.addEventListener('click', onMessageErrorClickOutside);
+  document.body.appendChild(contentMessageError);
+}
+
+function closeEditingForm() {
+  imageEditingForm.classList.add('hidden');
+  body.classList.remove('modal-open');
+
+  uploadFile.value = '';
+  uploadingNewImageForm.reset();
+  picturePreview.className = '';
+  picturePreview.style.filter = '';
+  picturePreview.style.transform = '';
+  uploadValue.value = `${maxScale}%`;
+  document.removeEventListener('keydown', onValidateFormEscKeydown);
+}
+
+function closeFormError() {
   imageEditingForm.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onValidateFormEscKeydown);
-  uploadFile.value = '';
 }
 
 function onValidateFormEscKeydown(evt) {
   if (isEscapeKey(evt)) {
     evt.preventDefault();
-    closeValidateForm();
+    closeEditingForm();
   }
 }
 
@@ -34,8 +120,8 @@ function validateForm() {
   document.addEventListener('keydown', onValidateFormEscKeydown);
 }
 
-buttonUploadCancel.addEventListener('click', () => {
-  closeValidateForm();
+uploadCancelButton.addEventListener('click', () => {
+  closeEditingForm();
 });
 
 commentField.addEventListener('focus', () => {
@@ -61,7 +147,7 @@ const pristine = new Pristine(uploadingNewImageForm,
   });
 
 function validateCommentField(value) {
-  return checkStringLength(value, MAX_COMMENT_LENGTH);
+  return checkStringLength(value, maxCommentLength);
 }
 
 pristine.addValidator(
@@ -86,7 +172,7 @@ function validateHashTags(value) {
       return false;
     }
   }
-  return hashTags.length <= HASHTAGS_LIMIT;
+  return hashTags.length <= hashtagsLimit;
 }
 
 pristine.addValidator(
@@ -95,11 +181,37 @@ pristine.addValidator(
   'неверный хештег'
 );
 
-uploadingNewImageForm.addEventListener('submit', (evt) => {
-  const isValid = pristine.validate();
-  if (!isValid) {
-    evt.preventDefault();
-  }
-});
+const blockSubmitButton = () => {
+  submitButton.disabled = true;
+  submitButton.textContent = 'Сохраняю...';
+};
 
-export {validateForm};
+const unblockSubmitButton = () => {
+  submitButton.disabled = false;
+  submitButton.textContent = 'Опубликовать';
+};
+
+function setUserFormSubmit() {
+  uploadingNewImageForm.addEventListener('submit', (evt) => {
+    evt.preventDefault();
+    const isValid = pristine.validate();
+    if (isValid) {
+      blockSubmitButton();
+      sendData(
+        () => {
+          closeEditingForm();
+          unblockSubmitButton();
+          showSuccessMessage();
+        },
+        () => {
+          unblockSubmitButton();
+          showErrorMessage();
+          closeFormError();
+        },
+        new FormData(evt.target),
+      );
+    }
+  });
+}
+
+export {validateForm, setUserFormSubmit};

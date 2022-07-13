@@ -1,15 +1,22 @@
-import {createPhotosDescriptions} from './data.js';
 import {buildThumbnails} from './thumbnails-rendering.js';
 import {createFullPicture} from './full-size-picture.js';
-import {validateForm} from './form-validation.js';
-import {OnButtonControlScale, createSlider} from './picture-modification.js';
-const photosDescriptions = createPhotosDescriptions(25);
-const photosContainer = document.querySelector('.pictures');
-const photosFragment = buildThumbnails(photosDescriptions);
-photosContainer.appendChild(photosFragment);
+import {validateForm, setUserFormSubmit} from './form-validation.js';
+import {createSlider, OnButtonControlScale} from './picture-modification.js';
+import {getData} from './api.js';
 
-const thumbnails = photosContainer.querySelectorAll('.picture');
-createFullPicture(thumbnails, photosDescriptions);
+
 validateForm();
 OnButtonControlScale();
 createSlider();
+
+getData((photos) => {
+  const photosContainer = document.querySelector('.pictures');
+  buildThumbnails(photos);
+  const photosFragment = buildThumbnails(photos);
+  photosContainer.appendChild(photosFragment);
+
+  const thumbnails = photosContainer.querySelectorAll('.picture');
+  createFullPicture(thumbnails, photos);
+});
+
+setUserFormSubmit();
