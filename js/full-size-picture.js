@@ -24,7 +24,8 @@ fullPictureCloseButton.addEventListener('click', () => {
 });
 
 
-function createFullPicture(thumbnails, photos) {
+function createFullPicture(photos) {
+  const thumbnails = document.querySelectorAll('.picture');
   for (let i = 0; i < thumbnails.length; i++) {
     thumbnails[i].addEventListener('click', (evt) => {
       evt.preventDefault();

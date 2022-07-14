@@ -137,6 +137,8 @@ function createSlider() {
     currentEffect = evt.target.value;
     if (currentEffect === defaultEffect) {
       sliderContainer.classList.add('hidden');
+      picturePreview.removeAttribute('class');
+      picturePreview.removeAttribute('style');
     } else {
       sliderContainer.classList.remove('hidden');
       picturePreview.className = '';

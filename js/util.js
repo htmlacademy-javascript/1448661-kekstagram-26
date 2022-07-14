@@ -5,13 +5,12 @@
  * @returns {boolean|number}
  */
 
-function getRandomInt(min, max) {
-  if (min >= 0 && min < max) {
-    return Math.floor(Math.random() * (max - min + 1)) + min;
-  }
-  return false;
-}
-getRandomInt(1, 2);
+const getRandomInt = (min, max) => {
+  min = Math.ceil(min);
+  max = Math.floor(max);
+  return Math.floor(Math.random() * (max - min + 1)) + min;
+};
+
 /**
  * Функция для проверки максимальной длины строки.
  * @param verifiedString
@@ -59,4 +58,18 @@ function showAlert (message)  {
   }, alertShowTime);
 }
 
-export {isEscapeKey, checkStringLength, showAlert};
+/**
+ * Функция для устранения дребезга
+ * @param callback
+ * @param timeoutDelay
+ * @returns {(function(...[*]): void)|*}
+ */
+function debounce (callback, timeoutDelay = 500) {
+  let timeoutId;
+  return (...rest) => {
+    clearTimeout(timeoutId);
+    timeoutId = setTimeout(() => callback.apply(this, rest), timeoutDelay);
+  };
+}
+
+export {isEscapeKey, checkStringLength, showAlert, getRandomInt, debounce};
