@@ -1,3 +1,4 @@
+//подстановка фото
 function uploadPhoto () {
   const fileTypes = ['gif', 'jpg', 'jpeg', 'png'];
 
