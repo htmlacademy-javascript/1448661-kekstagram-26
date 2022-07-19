@@ -20,6 +20,7 @@ const messageError = document.querySelector('#error');
 const contentMessageError = messageError.content.querySelector('.error').cloneNode(true);
 const errorButton = contentMessageError.querySelector('.error__button');
 
+const errorMessageZIndex = '10';
 const maxScale = 100;
 const maxCommentLength = 140;
 const hashtagsLimit = 5;
@@ -63,6 +64,7 @@ function closeErrorMessage() {
   document.removeEventListener('keydown', onMessageErrorKeyDown);
   contentMessageError.removeEventListener('click', onMessageErrorClickOutside);
   contentMessageError.remove();
+  document.addEventListener('keydown', onValidateFormEscKeydown);
 }
 
 function closeSuccessMessage() {
@@ -84,6 +86,8 @@ function showErrorMessage() {
   document.addEventListener('keydown', onMessageErrorKeyDown);
   contentMessageError.addEventListener('click', onMessageErrorClickOutside);
   document.body.appendChild(contentMessageError);
+  contentMessageError.style.zIndex = errorMessageZIndex;
+  document.removeEventListener('keydown', onValidateFormEscKeydown);
 }
 
 function closeEditingForm() {
@@ -99,11 +103,11 @@ function closeEditingForm() {
   document.removeEventListener('keydown', onValidateFormEscKeydown);
 }
 
-function closeFormError() {
+/*function closeFormError() {
   imageEditingForm.classList.add('hidden');
   body.classList.remove('modal-open');
   document.removeEventListener('keydown', onValidateFormEscKeydown);
-}
+}*/
 
 function onValidateFormEscKeydown(evt) {
   if (isEscapeKey(evt)) {
@@ -207,7 +211,7 @@ function setUserFormSubmit() {
         () => {
           unblockSubmitButton();
           showErrorMessage();
-          closeFormError();
+          //closeFormError();
         },
         new FormData(evt.target),
       );

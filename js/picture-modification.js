@@ -79,7 +79,7 @@ const sliderEffectsList = {
   }
 };
 
-function OnButtonControlScale() {
+function controlScale() {
   uploadValue.value = `${maxScale}%`;
   minusButton.addEventListener('click', () => {
     let currentValue = parseInt(uploadValue.value, radix);
@@ -148,4 +148,4 @@ function createSlider() {
     }
   });
 }
-export {OnButtonControlScale, createSlider};
+export {controlScale, createSlider};
