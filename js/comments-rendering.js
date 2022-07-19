@@ -1,4 +1,5 @@
 const fullPicture = document.querySelector('.big-picture');
+const DEFAULT_COMMENTS_COUNT = 5;
 
 function renderLoadMoreCommentsButton(allCommentsCount, commentsCount) {
   const commentsLoaderButton = fullPicture.querySelector('.comments-loader');
@@ -44,9 +45,8 @@ function createComment(comment) {
 }
 
 function createComments(photos, i) {
-  const defaultCommentsCount = 5;
   let renderedCommentsCount = 0;
-  let commentsToRender = defaultCommentsCount;
+  let commentsToRender = DEFAULT_COMMENTS_COUNT;
 
   const commentList = fullPicture.querySelector('.social__comments');
   commentList.innerHTML = '';
@@ -55,9 +55,9 @@ function createComments(photos, i) {
 
   const allCommentsCount = photos[i].comments.length;
 
-  renderLoadMoreCommentsButton(allCommentsCount, defaultCommentsCount);
+  renderLoadMoreCommentsButton(allCommentsCount, DEFAULT_COMMENTS_COUNT);
 
-  if (allCommentsCount <= defaultCommentsCount) {
+  if (allCommentsCount <= DEFAULT_COMMENTS_COUNT) {
     photos[i].comments.forEach((comment) => {
       addCommentsToContainer(comment, commentList);
     });
@@ -69,7 +69,7 @@ function createComments(photos, i) {
 
     renderedCommentsCount += commentsToRender;
     renderCommentsCounter(renderedCommentsCount, allCommentsCount);
-    commentsToRender = Math.min(commentsToRender + defaultCommentsCount, allCommentsCount);
+    commentsToRender = Math.min(commentsToRender + DEFAULT_COMMENTS_COUNT, allCommentsCount);
 
     commentsLoaderButton.addEventListener('click', () => {
 
@@ -78,7 +78,7 @@ function createComments(photos, i) {
       });
 
       renderedCommentsCount = commentsToRender;
-      commentsToRender = Math.min(commentsToRender + defaultCommentsCount, allCommentsCount);
+      commentsToRender = Math.min(commentsToRender + DEFAULT_COMMENTS_COUNT, allCommentsCount);
       renderCommentsCounter(renderedCommentsCount, allCommentsCount);
 
       renderLoadMoreCommentsButton(allCommentsCount, renderedCommentsCount);

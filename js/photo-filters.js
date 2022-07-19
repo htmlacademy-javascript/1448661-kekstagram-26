@@ -2,15 +2,20 @@ import {debounce, getRandomInt} from './util.js';
 import {buildThumbnails} from './thumbnails-rendering.js';
 import {createFullPicture} from './full-size-picture.js';
 
+const RANDOM_PHOTOS_LIMIT = 10;
+
 const filterSection = document.querySelector('.img-filters');
-const randomPhotosLimit = 10;
 let currentActiveButton = filterSection.querySelector('.img-filters__button--active');
-const renderingDebounce = debounce(renderingSortedPhotos);
+
+const renderWithDebounce = debounce(renderSortedPhotos);
+
 function getRandomNumber() {
   return getRandomInt(-25, 25);
 }
 
-const getSort = (a, b) => b.comments.length - a.comments.length;
+function getSort(a, b) {
+  return b.comments.length - a.comments.length;
+}
 
 function clearPhotos() {
   document.querySelectorAll('.picture').forEach((picture) => {
@@ -18,42 +23,42 @@ function clearPhotos() {
   });
 }
 
-function renderingSortedPhotos(photos) {
+function renderSortedPhotos(photos) {
   clearPhotos();
   buildThumbnails(photos);
   createFullPicture(photos);
 }
 
-function defaultFilter(photos) {
-  const buttonFilterDefault = filterSection.querySelector('#filter-default');
-  buttonFilterDefault.addEventListener('click', () => {
+function getDefaultPhotos(photos) {
+  const defaultFilterButton = filterSection.querySelector('#filter-default');
+  defaultFilterButton.addEventListener('click', () => {
     currentActiveButton.classList.remove('img-filters__button--active');
-    buttonFilterDefault.classList.add('img-filters__button--active');
-    currentActiveButton = buttonFilterDefault;
-    renderingDebounce(photos);
+    defaultFilterButton.classList.add('img-filters__button--active');
+    currentActiveButton = defaultFilterButton;
+    renderWithDebounce(photos);
   });
 }
 
 function getRandomPhotos(photos) {
-  const buttonRandom = filterSection.querySelector('#filter-random');
-  buttonRandom.addEventListener('click', () => {
+  const randomFilterButton = filterSection.querySelector('#filter-random');
+  randomFilterButton.addEventListener('click', () => {
     currentActiveButton.classList.remove('img-filters__button--active');
-    buttonRandom.classList.add('img-filters__button--active');
-    currentActiveButton = buttonRandom;
-    const randomizedCards = photos.slice().sort(getRandomNumber).slice(0, randomPhotosLimit);
-    renderingDebounce(randomizedCards);
+    randomFilterButton.classList.add('img-filters__button--active');
+    currentActiveButton = randomFilterButton;
+    const randomizedCards = photos.slice().sort(getRandomNumber).slice(0, RANDOM_PHOTOS_LIMIT);
+    renderWithDebounce(randomizedCards);
   });
 }
 
 function getDiscussedPhotos(photos) {
-  const buttonDiscussed = filterSection.querySelector('#filter-discussed');
-  buttonDiscussed.addEventListener('click', (evt) => {
+  const discussedFilterButton = filterSection.querySelector('#filter-discussed');
+  discussedFilterButton.addEventListener('click', (evt) => {
     if (currentActiveButton !== evt.target) {
       currentActiveButton.classList.remove('img-filters__button--active');
-      buttonDiscussed.classList.add('img-filters__button--active');
-      currentActiveButton = buttonDiscussed;
+      discussedFilterButton.classList.add('img-filters__button--active');
+      currentActiveButton = discussedFilterButton;
       const discussedCards = photos.slice().sort(getSort);
-      renderingDebounce(discussedCards);
+      renderWithDebounce(discussedCards);
     }
   });
 }
@@ -61,7 +66,7 @@ function getDiscussedPhotos(photos) {
 function showFilter(photos) {
   filterSection.classList.remove('img-filters--inactive');
 
-  defaultFilter(photos);
+  getDefaultPhotos(photos);
   getRandomPhotos(photos);
   getDiscussedPhotos(photos);
 }

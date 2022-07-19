@@ -20,11 +20,11 @@ const messageError = document.querySelector('#error');
 const contentMessageError = messageError.content.querySelector('.error').cloneNode(true);
 const errorButton = contentMessageError.querySelector('.error__button');
 
-const errorMessageZIndex = '10';
-const maxScale = 100;
-const maxCommentLength = 140;
-const hashtagsLimit = 5;
-const regularExpression = /^#[A-Za-zА-яЁё0-9]{1,19}$/;
+const ERROR_MESSAGE_ZINDEX = '10';
+const MAX_SCALE = 100;
+const MAX_COMMENT_LENGTH = 140;
+const HASHTAGS_LIMIT = 5;
+const REGULAR_EXPRESSION = /^#[A-Za-zА-яЁё0-9]{1,19}$/;
 
 function onMessageErrorClickOutside(evt) {
   if (evt.target === contentMessageError) {
@@ -86,7 +86,7 @@ function showErrorMessage() {
   document.addEventListener('keydown', onMessageErrorKeyDown);
   contentMessageError.addEventListener('click', onMessageErrorClickOutside);
   document.body.appendChild(contentMessageError);
-  contentMessageError.style.zIndex = errorMessageZIndex;
+  contentMessageError.style.zIndex = ERROR_MESSAGE_ZINDEX;
   document.removeEventListener('keydown', onValidateFormEscKeydown);
 }
 
@@ -99,15 +99,9 @@ function closeEditingForm() {
   picturePreview.className = '';
   picturePreview.style.filter = '';
   picturePreview.style.transform = '';
-  uploadValue.value = `${maxScale}%`;
+  uploadValue.value = `${MAX_SCALE}%`;
   document.removeEventListener('keydown', onValidateFormEscKeydown);
 }
-
-/*function closeFormError() {
-  imageEditingForm.classList.add('hidden');
-  body.classList.remove('modal-open');
-  document.removeEventListener('keydown', onValidateFormEscKeydown);
-}*/
 
 function onValidateFormEscKeydown(evt) {
   if (isEscapeKey(evt)) {
@@ -152,7 +146,7 @@ const pristine = new Pristine(uploadingNewImageForm,
   });
 
 function validateCommentField(value) {
-  return checkStringLength(value, maxCommentLength);
+  return checkStringLength(value, MAX_COMMENT_LENGTH);
 }
 
 pristine.addValidator(
@@ -173,11 +167,11 @@ function validateHashTags(value) {
     return false;
   }
   for (let i = 0; i < hashTags.length; i++) {
-    if (!regularExpression.test(hashTags[i])) {
+    if (!REGULAR_EXPRESSION.test(hashTags[i])) {
       return false;
     }
   }
-  return hashTags.length <= hashtagsLimit;
+  return hashTags.length <= HASHTAGS_LIMIT;
 }
 
 pristine.addValidator(
@@ -211,7 +205,6 @@ function setUserFormSubmit() {
         () => {
           unblockSubmitButton();
           showErrorMessage();
-          //closeFormError();
         },
         new FormData(evt.target),
       );

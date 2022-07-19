@@ -1,3 +1,6 @@
+const ALERT_SHOW_TIME = 5000;
+const DEBOUNCE_TIMEOUT = 500;
+
 /**
  * Функция, возвращающая случайное целое число из переданного диапазона включительно
  * @param min
@@ -35,7 +38,6 @@ function isEscapeKey(evt) {
  * Функция показывает текст ошибки.
  * @type {number}
  */
-const alertShowTime = 5000;
 
 function showAlert (message)  {
   const alertContainer = document.createElement('div');
@@ -55,7 +57,7 @@ function showAlert (message)  {
 
   setTimeout(() => {
     alertContainer.remove();
-  }, alertShowTime);
+  }, ALERT_SHOW_TIME);
 }
 
 /**
@@ -64,7 +66,7 @@ function showAlert (message)  {
  * @param timeoutDelay
  * @returns {(function(...[*]): void)|*}
  */
-function debounce (callback, timeoutDelay = 500) {
+function debounce (callback, timeoutDelay = DEBOUNCE_TIMEOUT) {
   let timeoutId;
   return (...rest) => {
     clearTimeout(timeoutId);

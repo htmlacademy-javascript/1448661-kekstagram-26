@@ -23,7 +23,6 @@ fullPictureCloseButton.addEventListener('click', () => {
   closeFullPicture();
 });
 
-
 function createFullPicture(photos) {
   const thumbnails = document.querySelectorAll('.picture');
   for (let i = 0; i < thumbnails.length; i++) {

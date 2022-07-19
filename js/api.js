@@ -1,10 +1,10 @@
 import {showAlert} from './util.js';
 
-const dataReceivingAddress = 'https://26.javascript.pages.academy/kekstagram/data';
-const dataSendingAddress = 'https://26.javascript.pages.academy/kekstagram';
+const DATA_RECEIVING_ADDRESS = 'https://26.javascript.pages.academy/kekstagram/data';
+const DATA_SENDING_ADDRESS = 'https://26.javascript.pages.academy/kekstagram';
 
 function getData(onSuccess) {
-  fetch(dataReceivingAddress)
+  fetch(DATA_RECEIVING_ADDRESS)
     .then((response) => {
       if (response.ok) {
         return response.json();
@@ -19,9 +19,8 @@ function getData(onSuccess) {
     });
 }
 
-
 function sendData(onSuccess, onFail, body) {
-  fetch(dataSendingAddress,
+  fetch(DATA_SENDING_ADDRESS,
     {
       method: 'POST',
       body,
@@ -38,7 +37,4 @@ function sendData(onSuccess, onFail, body) {
     });
 }
 
-
 export {getData, sendData};
-
-

@@ -6,15 +6,16 @@ const sliderElement = document.querySelector('.effect-level__slider');
 const effectLevel = document.querySelector('.effect-level__value');
 const sliderContainer = document.querySelector('.img-upload__effect-level');
 
-const defaultEffect = 'none';
-let currentEffect = defaultEffect;
+const MAX_SCALE = 100;
+const MIN_SCALE = 25;
+const SCALE_STEP = 25;
+const RADIX = 10;
 
-const maxScale = 100;
-const minScale = 25;
-const scaleStep = 25;
-const radix = 10;
+const DEFAULT_EFFECT = 'none';
 
-const effectUnit  = {
+let currentEffect = DEFAULT_EFFECT;
+
+const effectUnit = {
   none: '',
   chrome: '',
   sepia: '',
@@ -22,6 +23,7 @@ const effectUnit  = {
   phobos: 'px',
   heat: ''
 };
+
 const effectStyle = {
   none: '',
   chrome: 'grayscale',
@@ -30,6 +32,7 @@ const effectStyle = {
   phobos: 'blur',
   heat: 'brightness'
 };
+
 const sliderEffectsList = {
   none: {},
 
@@ -80,20 +83,20 @@ const sliderEffectsList = {
 };
 
 function controlScale() {
-  uploadValue.value = `${maxScale}%`;
+  uploadValue.value = `${MAX_SCALE}%`;
   minusButton.addEventListener('click', () => {
-    let currentValue = parseInt(uploadValue.value, radix);
-    if (currentValue > minScale && currentValue <= maxScale) {
-      currentValue -= scaleStep;
+    let currentValue = parseInt(uploadValue.value, RADIX);
+    if (currentValue > MIN_SCALE && currentValue <= MAX_SCALE) {
+      currentValue -= SCALE_STEP;
       uploadValue.value = `${currentValue}%`;
       picturePreview.style.transform = `scale(${currentValue}%)`;
     }
   });
 
   plusButton.addEventListener('click', () => {
-    let currentValue = parseInt(uploadValue.value, radix);
-    if (currentValue >= minScale && currentValue < maxScale) {
-      currentValue += scaleStep;
+    let currentValue = parseInt(uploadValue.value, RADIX);
+    if (currentValue >= MIN_SCALE && currentValue < MAX_SCALE) {
+      currentValue += SCALE_STEP;
       uploadValue.value = `${currentValue}%`;
       picturePreview.style.transform = `scale(${currentValue}%)`;
     }
@@ -135,7 +138,8 @@ function createSlider() {
       return;
     }
     currentEffect = evt.target.value;
-    if (currentEffect === defaultEffect) {
+
+    if (currentEffect === DEFAULT_EFFECT) {
       sliderContainer.classList.add('hidden');
       picturePreview.removeAttribute('class');
       picturePreview.style.filter = '';
@@ -148,4 +152,5 @@ function createSlider() {
     }
   });
 }
+
 export {controlScale, createSlider};
