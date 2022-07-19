@@ -116,8 +116,9 @@ function validateForm() {
   uploadFile.addEventListener('change', () => {
     imageEditingForm.classList.remove('hidden');
     body.classList.add('modal-open');
+    document.addEventListener('keydown', onValidateFormEscKeydown);
   });
-  document.addEventListener('keydown', onValidateFormEscKeydown);
+
 }
 
 uploadCancelButton.addEventListener('click', () => {
