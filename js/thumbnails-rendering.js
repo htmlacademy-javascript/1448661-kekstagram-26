@@ -9,14 +9,14 @@ function buildThumbnail({url, likes, comments}) {
 }
 
 function buildThumbnails(photos) {
-  const photosContainer = document.querySelector('.pictures');
+  const photosContainerElement = document.querySelector('.pictures');
   const photosFragment = document.createDocumentFragment();
 
   photos.forEach(({url, likes, comments}) => {
     const photo = buildThumbnail({url, likes, comments});
     photosFragment.appendChild(photo);
   });
-  photosContainer.appendChild(photosFragment);
+  photosContainerElement.appendChild(photosFragment);
 }
 
 export {buildThumbnails};

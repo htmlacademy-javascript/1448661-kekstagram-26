@@ -1,11 +1,11 @@
-function uploadPhoto () {
-  const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
+const FILE_TYPES = ['gif', 'jpg', 'jpeg', 'png'];
 
-  const fileChooser = document.querySelector('#upload-file');
+function uploadPhoto() {
+  const fileChooserElement = document.querySelector('#upload-file');
   const picturePreview = document.querySelector('.img-upload__preview img');
 
-  fileChooser.addEventListener('change', () => {
-    const file = fileChooser.files[0];
+  fileChooserElement.addEventListener('change', () => {
+    const file = fileChooserElement.files[0];
     const fileName = file.name.toLowerCase();
 
     const matches = FILE_TYPES.some((type) => fileName.endsWith(type));
