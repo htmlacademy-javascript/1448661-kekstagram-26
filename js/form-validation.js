@@ -1,33 +1,33 @@
 import {checkStringLength, isEscapeKey} from './util.js';
 import {sendData} from './api.js';
 
-const uploadFile = document.querySelector('#upload-file');
-const uploadingNewImageForm = document.querySelector('#upload-select-image');
-const imageEditingForm = uploadingNewImageForm.querySelector('.img-upload__overlay');
-const body = document.body;
-const uploadCancelButton = uploadingNewImageForm.querySelector('#upload-cancel');
-const commentField = uploadingNewImageForm.querySelector('.text__description');
-const hashtagField = uploadingNewImageForm.querySelector('.text__hashtags');
-const submitButton = uploadingNewImageForm.querySelector('.img-upload__submit');
-const picturePreview = document.querySelector('.img-upload__preview img');
-const uploadValue = document.querySelector('.scale__control--value');
-
-const messageSuccess = document.querySelector('#success');
-const contentMessageSuccess = messageSuccess.content.querySelector('.success').cloneNode(true);
-const successButton = contentMessageSuccess.querySelector('.success__button');
-
-const messageError = document.querySelector('#error');
-const contentMessageError = messageError.content.querySelector('.error').cloneNode(true);
-const errorButton = contentMessageError.querySelector('.error__button');
-
 const ERROR_MESSAGE_ZINDEX = '10';
 const MAX_SCALE = 100;
 const MAX_COMMENT_LENGTH = 140;
 const HASHTAGS_LIMIT = 5;
 const REGULAR_EXPRESSION = /^#[A-Za-zА-яЁё0-9]{1,19}$/;
 
+const uploadFileElement = document.querySelector('#upload-file');
+const uploadingNewImageFormElement = document.querySelector('#upload-select-image');
+const imageEditingFormElement = uploadingNewImageFormElement.querySelector('.img-upload__overlay');
+const body = document.body;
+const uploadCancelButtonElement = uploadingNewImageFormElement.querySelector('#upload-cancel');
+const commentFieldElement = uploadingNewImageFormElement.querySelector('.text__description');
+const hashtagFieldElement = uploadingNewImageFormElement.querySelector('.text__hashtags');
+const submitButtonElement = uploadingNewImageFormElement.querySelector('.img-upload__submit');
+const picturePreviewElement = document.querySelector('.img-upload__preview img');
+const uploadValueElement = document.querySelector('.scale__control--value');
+
+const messageSuccessElement = document.querySelector('#success');
+const contentMessageSuccessElement = messageSuccessElement.content.querySelector('.success').cloneNode(true);
+const successButtonElement = contentMessageSuccessElement.querySelector('.success__button');
+
+const messageErrorElement = document.querySelector('#error');
+const contentMessageErrorElement = messageErrorElement.content.querySelector('.error').cloneNode(true);
+const errorButtonElement = contentMessageErrorElement.querySelector('.error__button');
+
 function onMessageErrorClickOutside(evt) {
-  if (evt.target === contentMessageError) {
+  if (evt.target === contentMessageErrorElement) {
     closeErrorMessage();
   }
 }
@@ -42,9 +42,8 @@ function onMessageErrorClickButton() {
   closeErrorMessage();
 }
 
-
 function onMessageSuccessClickOutside(evt) {
-  if (evt.target === contentMessageSuccess) {
+  if (evt.target === contentMessageSuccessElement) {
     closeSuccessMessage();
   }
 }
@@ -60,46 +59,46 @@ function onMessageSuccessClickButton() {
 }
 
 function closeErrorMessage() {
-  errorButton.removeEventListener('click', onMessageErrorClickButton);
+  errorButtonElement.removeEventListener('click', onMessageErrorClickButton);
   document.removeEventListener('keydown', onMessageErrorKeyDown);
-  contentMessageError.removeEventListener('click', onMessageErrorClickOutside);
-  contentMessageError.remove();
+  contentMessageErrorElement.removeEventListener('click', onMessageErrorClickOutside);
+  contentMessageErrorElement.remove();
   document.addEventListener('keydown', onValidateFormEscKeydown);
 }
 
 function closeSuccessMessage() {
-  successButton.removeEventListener('click', onMessageSuccessClickButton);
+  successButtonElement.removeEventListener('click', onMessageSuccessClickButton);
   document.removeEventListener('keydown', onMessageSuccessEscKeydown);
-  contentMessageSuccess.removeEventListener('click', onMessageSuccessClickOutside);
-  contentMessageSuccess.remove();
+  contentMessageSuccessElement.removeEventListener('click', onMessageSuccessClickOutside);
+  contentMessageSuccessElement.remove();
 }
 
 function showSuccessMessage() {
-  successButton.addEventListener('click', onMessageSuccessClickButton);
+  successButtonElement.addEventListener('click', onMessageSuccessClickButton);
   document.addEventListener('keydown', onMessageSuccessEscKeydown);
-  contentMessageSuccess.addEventListener('click', onMessageSuccessClickOutside);
-  document.body.appendChild(contentMessageSuccess);
+  contentMessageSuccessElement.addEventListener('click', onMessageSuccessClickOutside);
+  document.body.appendChild(contentMessageSuccessElement);
 }
 
 function showErrorMessage() {
-  errorButton.addEventListener('click', onMessageErrorClickButton);
+  errorButtonElement.addEventListener('click', onMessageErrorClickButton);
   document.addEventListener('keydown', onMessageErrorKeyDown);
-  contentMessageError.addEventListener('click', onMessageErrorClickOutside);
-  document.body.appendChild(contentMessageError);
-  contentMessageError.style.zIndex = ERROR_MESSAGE_ZINDEX;
+  contentMessageErrorElement.addEventListener('click', onMessageErrorClickOutside);
+  document.body.appendChild(contentMessageErrorElement);
+  contentMessageErrorElement.style.zIndex = ERROR_MESSAGE_ZINDEX;
   document.removeEventListener('keydown', onValidateFormEscKeydown);
 }
 
 function closeEditingForm() {
-  imageEditingForm.classList.add('hidden');
+  imageEditingFormElement.classList.add('hidden');
   body.classList.remove('modal-open');
 
-  uploadFile.value = '';
-  uploadingNewImageForm.reset();
-  picturePreview.className = '';
-  picturePreview.style.filter = '';
-  picturePreview.style.transform = '';
-  uploadValue.value = `${MAX_SCALE}%`;
+  uploadFileElement.value = '';
+  uploadingNewImageFormElement.reset();
+  picturePreviewElement.className = '';
+  picturePreviewElement.style.filter = '';
+  picturePreviewElement.style.transform = '';
+  uploadValueElement.value = `${MAX_SCALE}%`;
   document.removeEventListener('keydown', onValidateFormEscKeydown);
 }
 
@@ -111,35 +110,35 @@ function onValidateFormEscKeydown(evt) {
 }
 
 function validateForm() {
-  uploadFile.addEventListener('change', () => {
-    imageEditingForm.classList.remove('hidden');
+  uploadFileElement.addEventListener('change', () => {
+    imageEditingFormElement.classList.remove('hidden');
     body.classList.add('modal-open');
     document.addEventListener('keydown', onValidateFormEscKeydown);
   });
 
 }
 
-uploadCancelButton.addEventListener('click', () => {
+uploadCancelButtonElement.addEventListener('click', () => {
   closeEditingForm();
 });
 
-commentField.addEventListener('focus', () => {
+commentFieldElement.addEventListener('focus', () => {
   document.removeEventListener('keydown', onValidateFormEscKeydown);
 });
 
-commentField.addEventListener('blur', () => {
+commentFieldElement.addEventListener('blur', () => {
   document.addEventListener('keydown', onValidateFormEscKeydown);
 });
 
-hashtagField.addEventListener('focus', () => {
+hashtagFieldElement.addEventListener('focus', () => {
   document.removeEventListener('keydown', onValidateFormEscKeydown);
 });
 
-hashtagField.addEventListener('blur', () => {
+hashtagFieldElement.addEventListener('blur', () => {
   document.addEventListener('keydown', onValidateFormEscKeydown);
 });
 
-const pristine = new Pristine(uploadingNewImageForm,
+const pristine = new Pristine(uploadingNewImageFormElement,
   {
     classTo: 'img-upload__field-wrapper',
     errorTextParent: 'img-upload__field-wrapper'
@@ -150,7 +149,7 @@ function validateCommentField(value) {
 }
 
 pristine.addValidator(
-  commentField,
+  commentFieldElement,
   validateCommentField,
   'Длина комментария не больше 140 символов!');
 
@@ -175,23 +174,23 @@ function validateHashTags(value) {
 }
 
 pristine.addValidator(
-  hashtagField,
+  hashtagFieldElement,
   validateHashTags,
   'неверный хештег'
 );
 
-const blockSubmitButton = () => {
-  submitButton.disabled = true;
-  submitButton.textContent = 'Сохраняю...';
-};
+function blockSubmitButton() {
+  submitButtonElement.disabled = true;
+  submitButtonElement.textContent = 'Сохраняю...';
+}
 
-const unblockSubmitButton = () => {
-  submitButton.disabled = false;
-  submitButton.textContent = 'Опубликовать';
-};
+function unblockSubmitButton () {
+  submitButtonElement.disabled = false;
+  submitButtonElement.textContent = 'Опубликовать';
+}
 
 function setUserFormSubmit() {
-  uploadingNewImageForm.addEventListener('submit', (evt) => {
+  uploadingNewImageFormElement.addEventListener('submit', (evt) => {
     evt.preventDefault();
     const isValid = pristine.validate();
     if (isValid) {

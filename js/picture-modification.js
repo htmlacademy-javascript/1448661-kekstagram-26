@@ -1,17 +1,16 @@
-const minusButton = document.querySelector('.scale__control--smaller');
-const plusButton = document.querySelector('.scale__control--bigger');
-const uploadValue = document.querySelector('.scale__control--value');
-const picturePreview = document.querySelector('.img-upload__preview img');
-const sliderElement = document.querySelector('.effect-level__slider');
-const effectLevel = document.querySelector('.effect-level__value');
-const sliderContainer = document.querySelector('.img-upload__effect-level');
-
 const MAX_SCALE = 100;
 const MIN_SCALE = 25;
 const SCALE_STEP = 25;
 const RADIX = 10;
-
 const DEFAULT_EFFECT = 'none';
+
+const minusButtonElement = document.querySelector('.scale__control--smaller');
+const plusButtonElement = document.querySelector('.scale__control--bigger');
+const uploadValueElement = document.querySelector('.scale__control--value');
+const picturePreviewElement = document.querySelector('.img-upload__preview img');
+const sliderElement = document.querySelector('.effect-level__slider');
+const effectLevelElement = document.querySelector('.effect-level__value');
+const sliderContainerElement = document.querySelector('.img-upload__effect-level');
 
 let currentEffect = DEFAULT_EFFECT;
 
@@ -83,22 +82,22 @@ const sliderEffectsList = {
 };
 
 function controlScale() {
-  uploadValue.value = `${MAX_SCALE}%`;
-  minusButton.addEventListener('click', () => {
-    let currentValue = parseInt(uploadValue.value, RADIX);
+  uploadValueElement.value = `${MAX_SCALE}%`;
+  minusButtonElement.addEventListener('click', () => {
+    let currentValue = parseInt(uploadValueElement.value, RADIX);
     if (currentValue > MIN_SCALE && currentValue <= MAX_SCALE) {
       currentValue -= SCALE_STEP;
-      uploadValue.value = `${currentValue}%`;
-      picturePreview.style.transform = `scale(${currentValue}%)`;
+      uploadValueElement.value = `${currentValue}%`;
+      picturePreviewElement.style.transform = `scale(${currentValue}%)`;
     }
   });
 
-  plusButton.addEventListener('click', () => {
-    let currentValue = parseInt(uploadValue.value, RADIX);
+  plusButtonElement.addEventListener('click', () => {
+    let currentValue = parseInt(uploadValueElement.value, RADIX);
     if (currentValue >= MIN_SCALE && currentValue < MAX_SCALE) {
       currentValue += SCALE_STEP;
-      uploadValue.value = `${currentValue}%`;
-      picturePreview.style.transform = `scale(${currentValue}%)`;
+      uploadValueElement.value = `${currentValue}%`;
+      picturePreviewElement.style.transform = `scale(${currentValue}%)`;
     }
   });
 }
@@ -126,13 +125,13 @@ function createSlider() {
   });
 
   sliderElement.noUiSlider.on('update', () => {
-    effectLevel.value = sliderElement.noUiSlider.get();
-    picturePreview.style.filter = `${effectStyle[currentEffect]}(${effectLevel.value}${effectUnit[currentEffect]})`;
+    effectLevelElement.value = sliderElement.noUiSlider.get();
+    picturePreviewElement.style.filter = `${effectStyle[currentEffect]}(${effectLevelElement.value}${effectUnit[currentEffect]})`;
   });
 
-  const imgUploadForm = document.querySelector('.img-upload__form');
-  imgUploadForm.addEventListener('change', (evt) => {
-    sliderContainer.classList.add('hidden');
+  const imgUploadFormElement = document.querySelector('.img-upload__form');
+  imgUploadFormElement.addEventListener('change', (evt) => {
+    sliderContainerElement.classList.add('hidden');
 
     if (!evt.target.classList.contains('effects__radio')) {
       return;
@@ -140,14 +139,14 @@ function createSlider() {
     currentEffect = evt.target.value;
 
     if (currentEffect === DEFAULT_EFFECT) {
-      sliderContainer.classList.add('hidden');
-      picturePreview.removeAttribute('class');
-      picturePreview.style.filter = '';
+      sliderContainerElement.classList.add('hidden');
+      picturePreviewElement.removeAttribute('class');
+      picturePreviewElement.style.filter = '';
     } else {
-      sliderContainer.classList.remove('hidden');
-      picturePreview.className = '';
+      sliderContainerElement.classList.remove('hidden');
+      picturePreviewElement.className = '';
       const currentClass = `effects__preview--${currentEffect}`;
-      picturePreview.classList.add(currentClass);
+      picturePreviewElement.classList.add(currentClass);
       sliderElement.noUiSlider.updateOptions(sliderEffectsList[currentEffect]);
     }
   });

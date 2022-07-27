@@ -1,19 +1,22 @@
-const fullPicture = document.querySelector('.big-picture');
 const DEFAULT_COMMENTS_COUNT = 5;
+const AVATAR_WIDTH = 35;
+const AVATAR_HEIGHT = 35;
+
+const fullPictureElement = document.querySelector('.big-picture');
 
 function renderLoadMoreCommentsButton(allCommentsCount, commentsCount) {
-  const commentsLoaderButton = fullPicture.querySelector('.comments-loader');
+  const commentsLoaderButtonElement = fullPictureElement.querySelector('.comments-loader');
 
   if (allCommentsCount <= commentsCount) {
-    commentsLoaderButton.classList.add('hidden');
+    commentsLoaderButtonElement.classList.add('hidden');
   } else {
-    commentsLoaderButton.classList.remove('hidden');
+    commentsLoaderButtonElement.classList.remove('hidden');
   }
 }
 
 function renderCommentsCounter(renderedCommentsCount, allCommentsCount) {
-  const allCommentsCountElement = fullPicture.querySelector('.comments-count');
-  const renderedCommentsCountElement = fullPicture.querySelector('.js__rendered-comments');
+  const allCommentsCountElement = fullPictureElement.querySelector('.comments-count');
+  const renderedCommentsCountElement = fullPictureElement.querySelector('.js__rendered-comments');
 
   allCommentsCountElement.textContent = String(allCommentsCount);
   renderedCommentsCountElement.textContent = renderedCommentsCount;
@@ -32,8 +35,8 @@ function createComment(comment) {
   avatar.classList.add('social__picture');
   avatar.src = comment.avatar;
   avatar.alt = comment.name;
-  avatar.width = 35;
-  avatar.height = 35;
+  avatar.width = AVATAR_WIDTH;
+  avatar.height = AVATAR_HEIGHT;
   socialComment.appendChild(avatar);
 
   const socialText = document.createElement('p');
@@ -48,10 +51,10 @@ function createComments(photos, i) {
   let renderedCommentsCount = 0;
   let commentsToRender = DEFAULT_COMMENTS_COUNT;
 
-  const commentList = fullPicture.querySelector('.social__comments');
-  commentList.innerHTML = '';
+  const commentListElement = fullPictureElement.querySelector('.social__comments');
+  commentListElement.innerHTML = '';
 
-  const commentsLoaderButton = document.querySelector('.comments-loader');
+  const commentsLoaderButtonElement = document.querySelector('.comments-loader');
 
   const allCommentsCount = photos[i].comments.length;
 
@@ -59,22 +62,22 @@ function createComments(photos, i) {
 
   if (allCommentsCount <= DEFAULT_COMMENTS_COUNT) {
     photos[i].comments.forEach((comment) => {
-      addCommentsToContainer(comment, commentList);
+      addCommentsToContainer(comment, commentListElement);
     });
     renderCommentsCounter(allCommentsCount, allCommentsCount);
   } else {
     photos[i].comments.slice(0, commentsToRender).forEach((comment) => {
-      addCommentsToContainer(comment, commentList);
+      addCommentsToContainer(comment, commentListElement);
     });
 
     renderedCommentsCount += commentsToRender;
     renderCommentsCounter(renderedCommentsCount, allCommentsCount);
     commentsToRender = Math.min(commentsToRender + DEFAULT_COMMENTS_COUNT, allCommentsCount);
 
-    commentsLoaderButton.addEventListener('click', () => {
+    commentsLoaderButtonElement.addEventListener('click', () => {
 
       photos[i].comments.slice(renderedCommentsCount, commentsToRender).forEach((comment) => {
-        addCommentsToContainer(comment, commentList);
+        addCommentsToContainer(comment, commentListElement);
       });
 
       renderedCommentsCount = commentsToRender;
